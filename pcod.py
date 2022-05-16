@@ -60,7 +60,7 @@ pchs_ann_df['pct_change'] = pchs_ann_df['annual_cumulative_distinct'].pct_change
 # annual mean
 # monthly mean
 
-# ----------
+#-----Visualize----------------------
 df_15_18 = pchs_df.iloc[0:48]
 df_19 = pchs_df.iloc[48:60]
 df_20_21 = pchs_df.iloc[60:84]
@@ -74,11 +74,11 @@ ax[0].scatter(dfx_15_18.index, dfx_15_18['number_served'])
 ax[1].scatter(dfx_19.index, dfx_19['number_served'])
 ax[2].scatter(dfx_20_21.index, dfx_20_21['number_served'])
 
-plt.tight_layout()
+# plt.tight_layout()
 
-ax[0].tick_params(rotation=90)
-ax[1].tick_params(rotation=90)
-ax[2].tick_params(rotation=90)
+ax[0].tick_params(rotation=30)
+ax[1].tick_params(rotation=30)
+ax[2].tick_params(rotation=30)
 
 x1518 = mdates.date2num(df_15_18.index)
 y1518= df_15_18['number_served']
@@ -92,37 +92,10 @@ z = np.polyfit(x2021, y2021, 1)
 p = np.poly1d(z)
 ax[2].plot(x2021,p(x2021),"r--")
 
-fig.savefig('pcod.jpg')
-
-# convert datetime idx to ordinal vals to plot a regression line
-# dfx_15_18.index = dfx_15_18.index.map(pd.Timestamp.toordinal)
-# dfx_19.index = dfx_19.index.map(pd.Timestamp.toordinal)
-# dfx_20_21.index = dfx_20_21.index.map(pd.Timestamp.toordinal)
-
-# fig, ax = plt.subplots(1, 3, sharex='col', sharey='row')
-# ax[0].plot(dfx_15_18.index, dfx_15_18['number_served'])
-# ax[1].plot(dfx_19.index, dfx_19['number_served'])
-# ax[2].plot(dfx_20_21.index, dfx_20_21['number_served'])
-
-# scratch notes
-# convert the axis back to datetime
-# xticks = ax1.get_xticks()
-# labels = [pd.Timestamp.fromordinal(int(label)).date() for label in xticks]
-# ax1.set_xticks(xticks)
-# ax1.set_xticklabels(labels)
-
-# ax[0] = sns.regplot(x=df_15_18.index, y='number_served', data=df_15_18)
-
-# fig.tight_layout()
-# ax[0].autoscale(tight=True)
-# ax[1].autoscale(tight=True)
-# ax[2].autoscale(tight=True)
-
-# xlab1518 = df_15_18.index.strftime("%Y-%m")
-# xlab19 = df_19.index.strftime("%Y-%m")
-# xlab2021 = df_20_21.index.strftime("%Y-%m")
-
-# xticks_15_18 = ax[0].get_xticks()
-# labels_15_18 = [pd.Timestamp.fromordinal(int(label)).date() for label in xticks_15_18]
-# ax[0].set_xticks(xticks_15_18)
-# fig.set_size_inches([11.12, 5.5])
+plt.subplots_adjust(bottom=0.2)
+ax[0].title.set_text('No. persons housed, by mo., 2015-18')
+ax[1].title.set_text('No. persons housed, by mo., 2019')
+ax[2].title.set_text('No. persons housed, by mo., 2020-21')
+fig.text(0.5, 0.04, 'Year-mo', ha='center', va='center')
+fig.text(0.05, 0.5, 'No. persons housed', ha='center', va='center', rotation='vertical')
+fig.savefig('pcod.jpg', bbox_inches = "tight")
